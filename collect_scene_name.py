@@ -5,11 +5,12 @@ import pymel.core as pm
 
 
 class CollectSceneName(pyblish.api.ContextPlugin):
-    """Inject the currently path into the Context"""
+    """Inject the current scene name into the Context"""
 
     order = pyblish.api.CollectorOrder
     label = "GetSceneName"
-    hosts = ['maya']
+    # hosts = ['maya']
+    host = 'maya'
 
     def process(self, context):
         context.data['scenename'] = pm.sceneName()
