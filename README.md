@@ -1,0 +1,1 @@
+#pyblishplugin_maya
