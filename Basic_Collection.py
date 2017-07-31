@@ -2,6 +2,7 @@
 import pyblish.api
 import pymel.core as pm
 import sys
+import inspect
 
 
 class CollectLoadedPlugin(pyblish.api.ContextPlugin):
@@ -54,4 +55,13 @@ class CollectSceneName(pyblish.api.ContextPlugin):
 
     def process(self, context):
         context.data['mayaSceneName'] = pm.sceneName()
+
+
+
+
+plugins = []
+for x, y in locals().items():
+    if inspect.isclass(y):
+        plugins.append(y)
+
 
