@@ -5,13 +5,13 @@ import pymel.core as pm
 
 
 class CollectSceneName(pyblish.api.ContextPlugin):
-    """Inject the current scene name into the Context"""
+    """Collect [mayaSceneName]"""
 
     order = pyblish.api.CollectorOrder
-    label = "Current Scene Name"
+    label = "Current Maya Scene"
     # hosts = ['maya']
     # 只有host可以显示在pyblish qml界面上,host 可以是列表
-    host = 'maya'
+    host = ['maya','mayapy']
 
     def process(self, context):
-        context.data['scenename'] = pm.sceneName()
+        context.data['mayaSceneName'] = pm.sceneName()
