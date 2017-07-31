@@ -5,6 +5,11 @@ import sys
 import inspect
 
 
+# 事实证明一个文件内写多个plugin是可以的,
+# hosts才是对的
+# pyblish_qml启动的时候的host是python
+# 想要使用自己的plugin需要注册host
+
 class CollectLoadedPlugin(pyblish.api.ContextPlugin):
     """Collect [loadedPlugins]  Type:list"""
 
@@ -57,14 +62,9 @@ class CollectSceneName(pyblish.api.ContextPlugin):
         context.data['mayaSceneName'] = pm.sceneName()
 
 
+# -------------------------------------------------------------------------------------------
 # 检索模块
 plugins = []
 for x, y in locals().items():
     if inspect.isclass(y):
         plugins.append(y)
-
-
-# 事实证明一个文件内写多个plugin是可以的,
-# hosts才是对的
-# pyblish_qml启动的时候的host是python
-# 想要使用自己的plugin需要注册host
