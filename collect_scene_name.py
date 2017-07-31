@@ -8,7 +8,7 @@ class CollectSceneName(pyblish.api.ContextPlugin):
     """Inject the current scene name into the Context"""
 
     order = pyblish.api.CollectorOrder
-    label = "GetSceneName"
+    label = "Current Scene Name"
     # hosts = ['maya']
     # 只有host可以显示在pyblish qml界面上,host 可以是列表
     host = 'maya'
