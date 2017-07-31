@@ -10,6 +10,7 @@ class CollectSceneName(pyblish.api.ContextPlugin):
     order = pyblish.api.CollectorOrder
     label = "GetSceneName"
     # hosts = ['maya']
+    # 只有host可以显示在pyblish qml界面上,host 可以是列表
     host = 'maya'
 
     def process(self, context):
