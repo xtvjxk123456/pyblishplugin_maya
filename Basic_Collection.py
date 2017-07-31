@@ -5,6 +5,7 @@ import sys
 import inspect
 import os
 
+
 # 事实证明一个文件内写多个plugin是可以的,
 # hosts才是对的
 # pyblish_qml启动的时候的host是python
@@ -59,11 +60,11 @@ class CollectSceneName(pyblish.api.ContextPlugin):
     hosts = ['maya', 'mayapy']
 
     def process(self, context):
-        context.data['mayaSceneName'] = pm.sceneName()
-        if os.path.exists(context.data['mayaSceneName']):
-            filename =context.create_instance(name=os.path.basename(context.data['mayaSceneName']))
-            filename.data['family'] = ['Scene']
+        if os.path.exists(pm.sceneName()):
+            filename = context.create_instance(name=os.path.basename(pm.sceneName()))
+            filename.data['family'] = 'Scene'
             filename.data['icon'] = 'tint'
+            filename.data['path'] = pm.sceneName()
 
 
 # -------------------------------------------------------------------------------------------
