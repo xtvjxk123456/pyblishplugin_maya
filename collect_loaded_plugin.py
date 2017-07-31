@@ -1,7 +1,6 @@
 # coding:utf-8
 import pyblish.api
 import pymel.core as pm
-import os
 
 
 class CollectLoadedPlugin(pyblish.api.ContextPlugin):
@@ -11,8 +10,9 @@ class CollectLoadedPlugin(pyblish.api.ContextPlugin):
     label = "Current Loaded Plugin"
     # hosts = ['maya']
     # 只有host可以显示在pyblish qml界面上,host 可以是列表
-    host = ['maya','mayapy']
+    hosts = ['maya','mayapy']
 
     def process(self, context):
-        loadedPluginPath =map(lambda x:os.path.basename(x),pm.pluginInfo(q=True,lsp=True))
+        loadedPluginPath =map(lambda x:pm.Path(x).basename().name,pm.pluginInfo(q=True,lsp=True))
         context.data['LoadedPlugins'] = loadedPluginPath
+        # self.log.info('current pyblish_qml host is {}'.format(pyblish.api.current_host()))
