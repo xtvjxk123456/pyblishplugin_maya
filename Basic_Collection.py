@@ -57,11 +57,8 @@ class CollectSceneName(pyblish.api.ContextPlugin):
         context.data['mayaSceneName'] = pm.sceneName()
 
 
-
-
+# 检索模块
 plugins = []
 for x, y in locals().items():
     if inspect.isclass(y):
         plugins.append(y)
-
-
