@@ -4,7 +4,7 @@ import pyblish.api
 
 
 class CollectPythonPath(pyblish.api.ContextPlugin):
-    """Collect [pythonPath]"""
+    """Collect [pythonPaths] Type:list"""
 
     order = pyblish.api.CollectorOrder
     label = "Current Python Sys Path"
@@ -13,4 +13,4 @@ class CollectPythonPath(pyblish.api.ContextPlugin):
     host = ['maya', 'mayapy']
 
     def process(self, context):
-        context.data['pythonPath'] = sys.path
+        context.data['pythonPaths'] = sys.path
