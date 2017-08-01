@@ -3,15 +3,18 @@ import pyblish.api
 import sys
 import inspect
 import os
-import pika
+# import pika
+import pyrabbit.api
 
 
-def NumOfQuene(queue):
-    num = 0
-    with pika.BlockingConnection(pika.ConnectionParameters('localhost')) as connect:
-        with connect.channel() as channel:
-            q = channel.queue_declare(queue, durable=True)
-            num = q.method.message_count
+def rabbitmq():
+    return pyrabbit.api.Client('localhost:15672', 'guest', 'guest')
+
+
+def numOfMessageInQueue(queue):
+    # 这个函数需要能在线程里运行,pika是不可以的
+    client = rabbitmq()
+    num = client.get_queue_depth('/', queue)
     return num
 
 
@@ -29,9 +32,15 @@ class CollectRabbitmqInfo(pyblish.api.ContextPlugin):
         except Exception:
             self.log.error('Can not Collect Rabbitmq Infor')
         else:
-            context.data['publishMessageNum'] = NumOfQuene('publish')
-            num = context.create_instance(name='Num:{}'.format(context.data['publishMessageNum']))
-            num.data['family'] = 'Rabbitmq'
+            queues = rabbitmq().get_queues('/')
+            context.data['publishMessageNum'] = numOfMessageInQueue('publish')
+            for x in queues:
+                q = context.create_instance(name='[{}],Ready:{},Unacked:{},Total:{}'.format(x['name'],
+                                                                                               x['messages_ready'],
+                                                                                               x[
+                                                                                                   'messages_unacknowledged'],
+                                                                                               x['messages']))
+                q.data['family'] = 'Rabbitmq'
 
 
 plugins = []
