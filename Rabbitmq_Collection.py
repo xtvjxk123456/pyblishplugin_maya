@@ -45,7 +45,9 @@ class CollectRabbitmqInfo(pyblish.api.ContextPlugin):
                                              rabbitmq().get_messages('/', x['name'], x['messages'], True))
                 else:
                     q.data['messages'] = []
+                q.data['queue'] =x['name']
                 q.data['family'] = 'Rabbitmq'
+
 
 
 plugins = []
