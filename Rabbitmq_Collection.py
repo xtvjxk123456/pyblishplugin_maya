@@ -36,10 +36,15 @@ class CollectRabbitmqInfo(pyblish.api.ContextPlugin):
             context.data['publishMessageNum'] = numOfMessageInQueue('publish')
             for x in queues:
                 q = context.create_instance(name='[{}],Ready:{},Unacked:{},Total:{}'.format(x['name'],
-                                                                                               x['messages_ready'],
-                                                                                               x[
-                                                                                                   'messages_unacknowledged'],
-                                                                                               x['messages']))
+                                                                                            x['messages_ready'],
+                                                                                            x[
+                                                                                                'messages_unacknowledged'],
+                                                                                            x['messages']))
+                if x['messages']:
+                    q.data['messages'] = map(lambda x: x['payload'],
+                                             rabbitmq().get_messages('/', x['name'], x['messages'], True))
+                else:
+                    q.data['messages'] = []
                 q.data['family'] = 'Rabbitmq'
 
 
