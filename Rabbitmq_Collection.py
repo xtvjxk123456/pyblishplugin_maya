@@ -6,6 +6,15 @@ import os
 import pika
 
 
+def NumOfQuene(queue):
+    num = 0
+    with pika.BlockingConnection(pika.ConnectionParameters('localhost')) as connect:
+        with connect.channel() as channel:
+            q = channel.queue_declare(queue, durable=True)
+            num = q.method.message_count
+    return num
+
+
 class CollectRabbitmqInfo(pyblish.api.ContextPlugin):
     """create Instance"""
 
@@ -20,8 +29,9 @@ class CollectRabbitmqInfo(pyblish.api.ContextPlugin):
         except Exception:
             self.log.error('Can not Collect Rabbitmq Infor')
         else:
-            pass
-            # 这里不好操作
+            context.data['publishMessageNum'] = NumOfQuene('publish')
+            num = context.create_instance(name='Num:{}'.format(context.data['publishMessageNum']))
+            num.data['family'] = 'Rabbitmq'
 
 
 plugins = []
